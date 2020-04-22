@@ -32,14 +32,14 @@ df1 <- as_tibble(expand.grid(metric_a = seq(-.50, .50, .01),
                             metric_b = seq(-.50, .50, .01)))
 
 df1 <- df1 %>% 
-  mutate(value = case_when(metric_a >= .30 ~ 'Output A',
-                           metric_a < -.30 ~ 'Output B',
+  mutate(value = case_when(metric_a >= .30 ~ 'Output E',
+                           metric_a < -.30 ~ 'Output A',
                            metric_a >= -.10 & metric_b >= -.10 
                            & metric_a < .15 & metric_b < .15 ~ 'Output C',
-                           metric_a >= 0 & metric_a < 0.30 & metric_b < 0 ~ 'Output A',
-                           metric_a >= -.30 & metric_a < 0 & metric_b >= 0 ~ 'Output B',
+                           metric_a >= 0 & metric_a < 0.30 & metric_b < 0 ~ 'Output E',
+                           metric_a >= -.30 & metric_a < 0 & metric_b >= 0 ~ 'Output A',
                            metric_a >= 0 & metric_a < 0.30 & metric_b >= 0 ~ 'Output D',
-                           metric_a < 0 & metric_a >= -.30 & metric_b < 0 ~ 'Output E'))
+                           metric_a < 0 & metric_a >= -.30 & metric_b < 0 ~ 'Output B'))
 
 p1 <- df1 %>% 
   decision_plot +
@@ -62,13 +62,13 @@ df2 <- df2 %>%
 p2 <- df2 %>% 
   decision_plot +
   labs(x = "Metric A", y = "Metric B", fill = NULL,
-       title = "Example 2: comparing % of two performance metrics") 
+       title = "Example 2: comparing % of two performance metrics",
+       caption = "by: @eeysirhc") 
 
 
 
 # PLOT CHARTS
 p1 + p2
-
 
 
 
