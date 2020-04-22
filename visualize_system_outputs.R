@@ -15,7 +15,7 @@ library(patchwork)
 # PLOTTING FUNCTION
 decision_plot <- function(df){
   
-  decision_hist <- ggplot(data = df, aes(metric_a, metric_b, fill = value)) +
+  decision_tile <- ggplot(data = df, aes(metric_a, metric_b, fill = value)) +
     geom_tile(color = 'white', alpha = 0.8) +
     scale_fill_brewer(palette = 'Set3', direction = -1) +
     scale_x_continuous(labels = percent_format(round(1))) +
@@ -23,7 +23,7 @@ decision_plot <- function(df){
     theme_minimal() +
     theme(legend.position = 'top')
   
-  return(decision_hist)
+  return(decision_tile)
 }
 
 
