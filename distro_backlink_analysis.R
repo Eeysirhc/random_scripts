@@ -1,15 +1,16 @@
 # AUTHOR: https://twitter.com/Eeysirhc
 # DATE WRITTEN: 2021-02-15
+# ORIGINAL REFERENCE: https://twitter.com/Eeysirhc/status/1361779630374461442
 # ARTICLE: [PLACEHOLDER]
-# ORIGINAL REFERENCE: [PLACEHOLDER]
 
 # DESCRIPTION
 ## VISUALIZE DISTIRUBTION OF BACKLINKS BASED ON A NUMBER OF DIMENSIONS
-## WHAT IS THE FREQUENCY OF 1-GRAM TERMS BEING TARGETED?
-## WHAT IS THE TOTAL NUMBER OF LINKS TO EACH 1-GRAM?
+## WHAT IS THE FREQUENCY OF UNIGRAM TERMS BEING TARGETED?
+## WHAT IS THE TOTAL NUMBER OF LINKS TO EACH UNIGRAM?
 ## ARE THESE RECENT OR HISTORICAL ADDITIONS TO THE WEBSITE PROFILE?
 
-
+# DATA SOURCE
+## AHREFS.COM > BACKLINK PROFILE > ANCHORS > FULL CSV EXPORT
 
 ##### LIBRARIES #####
 library(tidyverse)
@@ -18,7 +19,7 @@ library(ggwordcloud)
 library(scales)
 
 ##### AHREFS CSV LOCATION #####
-filename <- "~/YOUR/FILE/PATH/HERE"
+filename <- "~/Desktop/www.wayfair.com-anchors-prefix-live-16-Feb-2021_04-30-04-3c799107d3e86997c925440254fd63b3.csv"
 
 ##### LOAD CSV TO DATAFRAME #####
 df_raw <- read.csv(filename, sep = "\t", fileEncoding = "utf-16", stringsAsFactors = FALSE) %>% 
@@ -68,7 +69,6 @@ df_clean %>%
        x = "Term Frequency",
        caption = "by: @eeysirhc \nsource: Ahrefs") +
   theme_bw()
-
 
 
 
