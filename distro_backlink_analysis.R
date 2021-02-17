@@ -19,13 +19,14 @@ library(ggwordcloud)
 library(scales)
 
 ##### AHREFS CSV LOCATION #####
-filename <- "~/Desktop/www.wayfair.com-anchors-prefix-live-16-Feb-2021_04-30-04-3c799107d3e86997c925440254fd63b3.csv"
+filename <- "~/YOUR/FILE/PATH/HERE.CSV"
 
 ##### LOAD CSV TO DATAFRAME #####
 df_raw <- read.csv(filename, sep = "\t", fileEncoding = "utf-16", stringsAsFactors = FALSE) %>% 
   as_tibble() %>% 
   select(Anchor.Text, Referring.Domains.Total, First.Seen) %>% 
   mutate(First.Seen = as.Date(First.Seen)) %>% 
+  ### REMOVE NULL DATES
   filter(!is.na(First.Seen)) %>% 
   ### CALCULATE DAYS SINCE FIRST SEEN
   mutate(days_since = Sys.Date() - First.Seen)
@@ -39,18 +40,22 @@ df <- df_raw %>%
   unnest_tokens(word, anchor_text) %>% 
   count(word, sort = TRUE) %>% 
   ungroup() %>% 
+  ### CUT OUT STOP WORDS
   anti_join(stop_words) %>% 
   group_by(word) %>% 
   summarize(referring_domains = sum(referring_domains),
             n = sum(n),
             days_since = mean(days_since)) %>% 
+  ### ORDER BY MOST REFERRING DOMAINS
   arrange(desc(referring_domains)) %>% 
   ungroup() %>% 
+  ### REMOVE NULL WORDS
   filter(is.na(as.numeric(word)))
 
-##### FILTER OUT IRRELEVANT TERMS #####
+##### FILTER TOP 100 TERMS #####
 df_clean <- df %>% 
   mutate(days_since = as.numeric(days_since)) %>% 
+  ### REMOVE IRRELEVANT UNIGRAM
   filter(!grepl("sb0|html|https|http", word)) %>% 
   top_n(100, n)
 
